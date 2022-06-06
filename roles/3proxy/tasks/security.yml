@@ -1,0 +1,26 @@
+---
+- name: Open port for 3proxy server
+  firewalld:
+    state: enabled
+    permanent: yes
+    port: "{{ proxy_config['port'] }}/tcp"
+  tags:
+    - firewalld
+
+- name: Reload service `firewalld`
+  systemd:
+    state: reloaded
+    name: firewalld
+  tags:
+    - firewalld
+
+- name: Enable ports for 3proxy
+  seport:
+    setype: http_port_t
+    ports: "{{ item['port'] }}"
+    proto: tcp
+  with_items: "{{ proxy_ports }}"
+  when: "item['enabled']"
+  tags:
+    - selinux
+...

@@ -1,0 +1,18 @@
+{% for user in proxy_config['users'] %}
+users "{{ user['name'] }}:CL:{{ user['password'] }}"
+{% endfor %}
+{% for address in proxy_config['dns'] %}
+nserver {{ address }}
+{% endfor %}
+allow *
+auth strong
+proxy -p{{ proxy_config['port'] }} -i{{ proxy_config['server_ip'] }} -e{{ proxy_config['server_ip'] }}
+{% if proxy_config['management']['enabled'] %}
+flush
+auth strong
+allow {{ proxy_config['management']['user']['name'] }}
+deny *
+admin -p{{ proxy_config['management']['port'] }} -i{{ proxy_config['server_ip'] }} -e{{ proxy_config['server_ip'] }}
+{% endif %}
+daemon
+log /var/log/3proxy.log D

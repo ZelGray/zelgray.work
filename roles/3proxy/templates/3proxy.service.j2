@@ -1,0 +1,11 @@
+[Unit]
+Description=3proxy Proxy Server
+After=syslog.target network.target
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/3proxy {{ config_path }}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

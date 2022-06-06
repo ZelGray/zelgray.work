@@ -1,0 +1,6 @@
+---
+ansible_dnf_packages:
+  - python3
+  - python3-libselinux
+  - python3-libsemanage
+...

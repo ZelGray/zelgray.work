@@ -1,0 +1,7 @@
+---
+- name: Install OpenVPN related packages
+  dnf:
+    name: "{{ dnf_packages }}"
+    state: latest
+  become: yes
+...

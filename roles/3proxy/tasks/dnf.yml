@@ -1,0 +1,7 @@
+---
+- name: Install 3proxy related packages
+  dnf:
+    name: "{{ dnf_packages }}"
+    state: latest
+  become: yes
+...

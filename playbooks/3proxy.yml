@@ -1,0 +1,6 @@
+---
+- name: Configuring of 3proxy server
+  hosts: all
+  roles:
+    - 3proxy
+...

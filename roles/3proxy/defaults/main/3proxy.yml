@@ -1,0 +1,21 @@
+---
+proxy_config:
+  server_ip: "{{ ansible_default_ipv4.address }}"
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+  port: 6677
+  management:
+    port: 8080
+    user: "{{ management_user }}"
+    enabled: yes
+  users: "{{ proxy_users_list }}"
+proxy_ports:
+  - port: "{{ proxy_config['port'] }}"
+    enabled: yes
+  - port: "{{ proxy_config['management']['port'] }}"
+    enabled: "{{ proxy_config['management']['enabled'] }}"
+service_name: "3proxy"
+config_path: "/etc/{{ service_name }}.cfg"
+service_path: "/usr/lib/systemd/system/{{ service_name }}.service"
+...

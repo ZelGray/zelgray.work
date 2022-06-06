@@ -1,0 +1,8 @@
+---
+- name: Add services to service with Fail2Ban
+  import_role:
+    name: robertdebock.fail2ban
+  vars:
+    fail2ban_services: "{{ fail2ban_services }}"
+  become: yes
+...

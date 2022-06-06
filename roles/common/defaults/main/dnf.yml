@@ -1,0 +1,6 @@
+---
+common_dnf_packages:
+  - vim
+  - epel-release
+  - firewalld
+...

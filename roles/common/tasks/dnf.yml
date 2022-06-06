@@ -1,0 +1,7 @@
+---
+- name: Install common DNF packages
+  dnf:
+    name: "{{ common_dnf_packages }}"
+    state: latest
+  become: yes
+...

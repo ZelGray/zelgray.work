@@ -1,0 +1,9 @@
+---
+- name: Install Ansible DNF packages
+  dnf:
+    name: "{{ ansible_dnf_packages }}"
+    state: latest
+  become: yes
+  tags:
+    - dnf
+...

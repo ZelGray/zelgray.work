@@ -1,0 +1,6 @@
+---
+- name: Configuring of OpenVPN server
+  hosts: all
+  roles:
+    - openvpn-server
+...

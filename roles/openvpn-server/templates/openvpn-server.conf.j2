@@ -1,0 +1,35 @@
+port {{ openvpn_config['port'] }}
+proto {{ openvpn_config['protocol'] }}
+dev tun
+ca {{ openvpn_directories['keys_certs'] }}/ca.crt
+cert {{ openvpn_directories['keys_certs'] }}/server.crt
+key {{ openvpn_directories['keys_certs'] }}/server.key
+dh {{ openvpn_directories['keys_certs'] }}/dh.pem
+sndbuf 0
+rcvbuf 0
+crl-verify {{ openvpn_directories['keys_certs'] }}/crl.pem
+server {{ openvpn_config['server']['address'] }} {{ openvpn_config['server']['mask'] }}
+ifconfig-pool-persist {{ openvpn_directories['keys_certs'] }}/ipp.txt
+push "redirect-gateway def1"
+{% for address in openvpn_config['dns'] %}
+push "dhcp-option DNS {{ address }}"
+{% endfor %}
+remote-cert-eku "TLS Web Client Authentication"
+keepalive 10 120
+tls-server
+tls-auth {{ openvpn_directories['keys_certs'] }}/ta.key 0
+tls-timeout 120
+auth SHA512
+cipher AES-256-CBC
+comp-lzo
+max-clients 25
+user nobody
+group nobody
+persist-key
+persist-tun
+status {{ openvpn_directories['logs'] }}/openvpn-status.log
+log {{ openvpn_directories['logs'] }}/openvpn.log
+verb 5
+{% if openvpn_config['management']['enabled'] %}
+management {{ openvpn_config['management']['address'] }} {{ openvpn_config['management']['port'] }}
+{% endif %}

@@ -1,0 +1,33 @@
+---
+- name: Security tasks
+  import_tasks: security.yml
+  tags:
+    - security
+
+- name: Create the directories for OpenVPN
+  file:
+    path: "{{ openvpn_config_path }}/{{ item.value }}"
+    state: directory
+  with_dict: "{{ openvpn_directories }}"
+
+- name: Upload key/certs for OpenVPN
+  copy:
+    dest: "{{ openvpn_config_path }}/{{ openvpn_directories['keys_certs'] }}/"
+    src: "{{ openvpn_key_certs_path }}/"
+
+- name: Generate OpenVPN server config
+  template:
+    dest: "{{ openvpn_config_path }}/{{ openvpn_service_name }}.conf"
+    src: "openvpn-server.conf.j2"
+    lstrip_blocks: yes
+    trim_blocks: yes
+  register: config_state
+
+- name: Enable and start OpenVPN server systemd service
+  systemd:
+    enabled: yes
+    masked: no
+    daemon_reload: yes
+    state: "{{ 'reloaded' if config_state is changed else 'started' }}"
+    name: "openvpn-server@{{ openvpn_service_name }}"
+...

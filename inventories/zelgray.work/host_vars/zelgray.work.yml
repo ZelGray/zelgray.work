@@ -1,0 +1,11 @@
+---
+local_addresses:
+  - "localhost"
+  - "127.0.0.1"
+  - "[::1]"
+openvpn_key_certs_path: "{{ openvpn_key_certs_path }}"
+proxy_users_list: "{{ proxy_users_list }}"
+management_user: "{{ management_user }}"
+ansible_python_interpreter: "/usr/bin/env python3"
+
+...

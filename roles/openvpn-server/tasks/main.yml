@@ -1,0 +1,22 @@
+---
+- name: Include common role
+  import_role:
+    name: common
+
+- name: Main tasks
+  block:
+    - name: DNF tasks
+      block:
+        - import_tasks: dnf.yml
+      tags:
+        - dnf
+    - name: Configuration OpenVPN server
+      import_tasks: openvpn.yml
+      become: yes
+      tags:
+        - configuration
+  tags:
+    - openvpn
+  vars:
+    ansible_python_interpreter: "/usr/bin/env python3"
+...

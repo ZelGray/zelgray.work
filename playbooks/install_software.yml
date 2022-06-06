@@ -1,0 +1,6 @@
+---
+- name: Install software
+  hosts: all
+  roles:
+    - common
+...

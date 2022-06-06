@@ -1,0 +1,20 @@
+---
+- name: Include common role
+  import_role:
+    name: common
+
+- name: Main tasks
+  block:
+    - name: DNF tasks
+      block:
+        - import_tasks: dnf.yml
+      tags:
+        - dnf
+    - name: Configuration 3proxy server
+      import_tasks: 3proxy.yml
+      become: yes
+      tags:
+        - configuration
+  tags:
+    - 3proxy
+...

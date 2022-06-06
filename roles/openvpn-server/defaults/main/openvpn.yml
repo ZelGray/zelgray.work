@@ -1,0 +1,25 @@
+---
+openvpn_service_name: zelgray
+openvpn_config:
+  protocol: tcp
+  port: 444
+  server:
+    address: 10.8.0.0
+    mask: 255.255.255.0
+  dns:
+    - 8.8.8.8
+    - 8.8.4.4
+  management:
+    enabled: no
+    address: 127.0.0.1
+    port: 5555
+openvpn_config_path: "/etc/openvpn/server"
+openvpn_directories:
+  keys_certs: "{{ openvpn_service_name }}"
+  logs: "logs"
+openvpn_ports:
+  - port: "{{ openvpn_config['port'] }}"
+    enabled: yes
+  - port: "{{ openvpn_config['management']['port'] }}"
+    enabled: "{{ openvpn_config['management']['enabled'] }}"
+...
