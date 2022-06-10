@@ -1,0 +1,8 @@
+---
+- name: Run all playbooks
+  hosts: all
+  roles:
+    - common
+    - openvpn-server
+    - 3proxy
+...

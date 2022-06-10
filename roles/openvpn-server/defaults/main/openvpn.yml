@@ -10,7 +10,7 @@ openvpn_config:
     - 8.8.8.8
     - 8.8.4.4
   management:
-    enabled: no
+    enabled: "{{ openvpn_enable_management }}"
     address: 127.0.0.1
     port: 5555
 openvpn_config_path: "/etc/openvpn/server"

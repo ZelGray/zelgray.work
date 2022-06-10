@@ -1,0 +1,15 @@
+---
+node_address:
+openvpn_key_certs_path:
+openvpn_enable_management:
+ansible_become_pass:
+proxy_enable_management:
+proxy_management_user:
+  name:
+  password:
+proxy_users_list:
+  - name:
+    password:
+  - name: "{{ proxy_management_user['name'] }}"
+    password: "{{ proxy_management_user['password'] }}"
+...

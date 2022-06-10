@@ -7,8 +7,8 @@ proxy_config:
   port: 6677
   management:
     port: 8080
-    user: "{{ management_user }}"
-    enabled: yes
+    user: "{{ proxy_management_user }}"
+    enabled: "{{ proxy_enable_management }}"
   users: "{{ proxy_users_list }}"
 proxy_ports:
   - port: "{{ proxy_config['port'] }}"
