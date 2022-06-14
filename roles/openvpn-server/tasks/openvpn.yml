@@ -1,6 +1,7 @@
 ---
 - name: Security tasks
   import_tasks: security.yml
+  become: yes
   tags:
     - security
 

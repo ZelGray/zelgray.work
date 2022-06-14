@@ -1,5 +1,5 @@
 ---
-- name: Install software
+- name: Common
   hosts: all
   roles:
     - common

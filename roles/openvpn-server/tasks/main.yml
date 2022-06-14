@@ -1,8 +1,4 @@
 ---
-- name: Include common role
-  import_role:
-    name: common
-
 - name: Main tasks
   block:
     - name: DNF tasks

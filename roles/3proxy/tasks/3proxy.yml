@@ -1,4 +1,15 @@
 ---
+
+- name: Get group `nobody` ID
+  getent:
+    database: group
+    key: nobody
+
+- name: Get user `nobody` ID
+  getent:
+    database: passwd
+    key: nobody
+
 - name: Security tasks
   import_tasks: security.yml
   tags:
@@ -14,6 +25,8 @@
     dest: "{{ service_path }}"
     src: "{{ service_name }}.service.j2"
   register: config_state
+  tags:
+    - config
 
 - name: Set SELinux context for service file
   sefcontext:
@@ -31,4 +44,6 @@
     enabled: yes
     daemon_reload: yes
     state: "{{ 'restarted' if config_state is changed else 'started' }}"
+  tags:
+    - systemd
 ...

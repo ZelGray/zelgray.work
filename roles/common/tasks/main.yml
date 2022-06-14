@@ -3,6 +3,8 @@
   import_tasks: ansible.yml
   tags:
     - ansible
+  vars:
+    ansible_python_interpretator: "/usr/libexec/platform-python"
 
 - name: Main tasks
   block:
@@ -10,6 +12,8 @@
       import_tasks: dnf.yml
       tags:
         - dnf
+    - name: Common task
+      import_tasks: common.yml
     - name: Fail2ban task
       import_tasks: fail2ban.yml
       tags:

@@ -8,6 +8,5 @@ openvpn_enable_management: "{{ openvpn_enable_management }}"
 proxy_users_list: "{{ proxy_users_list }}"
 proxy_management_user: "{{ proxy_management_user }}"
 proxy_enable_management: "{{ proxy_enable_management }}"
-ansible_python_interpreter: "/usr/bin/env python3"
-
+docker_volumes_directory: "/var/lib/docker/volumes"
 ...

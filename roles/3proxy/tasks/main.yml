@@ -1,8 +1,4 @@
 ---
-- name: Include common role
-  import_role:
-    name: common
-
 - name: Main tasks
   block:
     - name: DNF tasks
@@ -17,4 +13,6 @@
         - configuration
   tags:
     - 3proxy
+  vars:
+    ansible_python_interpreter: "/usr/bin/env python3"
 ...

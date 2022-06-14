@@ -1,11 +1,19 @@
 [Unit]
-Description=3proxy Proxy Server
+Description={{ service_name }} Proxy Server
 After=syslog.target network.target
 
 [Service]
 Type=forking
-ExecStart=/usr/bin/3proxy {{ config_path }}
+User=nobody
+Group=nobody
+PermissionsStartOnly=true
+ExecStartPre=/usr/bin/mkdir -p {{ pid_dir }}
+ExecStartPre=/usr/bin/chown -R nobody:nobody {{ pid_dir }}
+ExecStart=/usr/bin/{{ service_name }} {{ config_path }}
 Restart=on-failure
+PIDFile={{ pid_file }}
+
+LimitNOFILE=20480
 
 [Install]
 WantedBy=multi-user.target
