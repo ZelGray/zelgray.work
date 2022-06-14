@@ -4,11 +4,15 @@
   getent:
     database: group
     key: nobody
+  tags:
+    - config
 
 - name: Get user `nobody` ID
   getent:
     database: passwd
     key: nobody
+  tags:
+    - config
 
 - name: Security tasks
   import_tasks: security.yml
@@ -19,6 +23,8 @@
   template:
     dest: "{{ config_path }}"
     src: "{{ service_name }}.cfg.j2"
+  tags:
+    - config
 
 - name: Generate 3proxy systemd service
   template:
@@ -26,7 +32,7 @@
     src: "{{ service_name }}.service.j2"
   register: config_state
   tags:
-    - config
+    - systemd
 
 - name: Set SELinux context for service file
   sefcontext:
