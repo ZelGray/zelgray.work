@@ -1,6 +1,7 @@
 ---
 proxy_config:
-  server_ip: "{{ ansible_default_ipv4.address }}"
+  server_ipv4: "{{ ansible_default_ipv4['address'] }}"
+  server_ipv6: "{{ ansible_default_ipv6['address'] }}"
   dns:
     - 1.1.1.1
     - 1.0.0.1

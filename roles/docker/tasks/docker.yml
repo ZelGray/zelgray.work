@@ -1,0 +1,14 @@
+---
+- name: Add current user to Docker group
+  user:
+    name: "{{ ansible_user }}"
+    groups: "docker"
+    append: yes
+
+- name: Start Docker daemon
+  systemd:
+    state: started
+    masked: no
+    enabled: yes
+    name: docker
+...

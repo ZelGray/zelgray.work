@@ -1,3 +1,5 @@
+setuid {{ getent_passwd.nobody[1] }}
+setgid {{ getent_group.nobody[1] }}
 daemon
 timeouts 1 5 30 60 180 1800 15 60
 pidfile {{ pid_file }}
@@ -10,8 +12,8 @@ log @ M
 logformat "L%Y-%m-%d %H:%M:%SGMT%z (user)%U (service)%N:%p (error)%E (client)%C:%c (request)%R:%r (query)%Q:%q (i/o)%I/%O (hostname)%n %T"
 
 maxconn 5000
-external {{ proxy_config['server_ip'] }}
-internal {{ proxy_config['server_ip'] }}
+external {{ proxy_config['server_ipv4'] }}
+internal {{ proxy_config['server_ipv4'] }}
 
 {% for address in proxy_config['dns'] %}
 nserver {{ address }}
@@ -19,15 +21,12 @@ nserver {{ address }}
 
 allow *
 auth strong
-proxy -p{{ proxy_config['port'] }} -n
+proxy -p{{ proxy_config['port'] }}
 
 {% if proxy_config['management']['enabled'] %}
 flush
 auth strong
 allow {{ proxy_config['management']['user']['name'] }}
 deny *
-admin -p{{ proxy_config['management']['port'] }} -i{{ proxy_config['server_ip'] }} -e{{ proxy_config['server_ip'] }}
+admin -p{{ proxy_config['management']['port'] }} -i{{ proxy_config['server_ipv4'] }} -e{{ proxy_config['server_ipv4'] }}
 {% endif %}
-
-setuid {{ getent_passwd.nobody[1] }}
-setgid {{ getent_group.nobody[1] }}

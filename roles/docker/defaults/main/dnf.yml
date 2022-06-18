@@ -1,0 +1,7 @@
+---
+dnf_packages:
+  - docker-ce
+  - python3-docker
+dnf_removed_packages:
+  - runc
+...

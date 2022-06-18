@@ -1,0 +1,6 @@
+---
+- name: Configuring of Docker
+  hosts: all
+  roles:
+    - docker
+...

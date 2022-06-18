@@ -13,7 +13,7 @@
     state: present
     value: "1"
   tags:
-    - firewalld
+    - sysctl
 
 - name: Add trusted zone for tun device
   firewalld:
@@ -24,12 +24,21 @@
   tags:
     - firewalld
 
+- name: Enable masquerading
+  firewalld:
+    masquerade: "yes"
+    state: enabled
+    permanent: yes
+  tags:
+    - firewalld
+
 - name: Reload service `firewalld`
   systemd:
     state: reloaded
     name: firewalld
   tags:
     - firewalld
+    - systemd
 
 - name: Enable ports for OpenVPN
   seport:

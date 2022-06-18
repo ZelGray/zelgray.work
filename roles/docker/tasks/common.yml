@@ -1,0 +1,9 @@
+---
+- name: Add repositories of docker-ce
+  get_url:
+    url: "{{ docker_ce_repo_file_url }}"
+    dest: "{{ docker_ce_repo_file_path }}"
+    owner: root
+    mode: 0644
+    force: yes
+...

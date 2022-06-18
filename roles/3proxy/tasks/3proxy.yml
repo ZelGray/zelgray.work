@@ -23,6 +23,7 @@
   template:
     dest: "{{ config_path }}"
     src: "{{ service_name }}.cfg.j2"
+  register: config_state
   tags:
     - config
 
@@ -30,7 +31,6 @@
   template:
     dest: "{{ service_path }}"
     src: "{{ service_name }}.service.j2"
-  register: config_state
   tags:
     - systemd
 

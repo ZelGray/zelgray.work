@@ -1,4 +1,0 @@
----
-dependencies:
-  - src: "{{ fail2ban }}"
-...

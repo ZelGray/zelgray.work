@@ -13,7 +13,14 @@ ExecStart=/usr/bin/{{ service_name }} {{ config_path }}
 Restart=on-failure
 PIDFile={{ pid_file }}
 
-LimitNOFILE=20480
+LimitAS=infinity
+LimitRSS=infinity
+LimitCORE=infinity
+LimitNOFILE=65536
+LimitNPROC=infinity
+LimitSIGPENDING=infinity
+LimitSIGPENDING=infinity
+LimitMSGQUEUE=infinity
 
 [Install]
 WantedBy=multi-user.target

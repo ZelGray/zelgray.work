@@ -5,4 +5,5 @@
     - common
     - openvpn-server
     - 3proxy
+    - docker
 ...
