@@ -1,7 +1,14 @@
 server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name {{ ansible_default_ipv4['address'] }} [{{ ansible_default_ipv6['address'] }}];
+    return 301 https://{{ node_address }}$request_uri;
+}
+
+server {
     listen       80;
     listen       [::]:80;
-    server_name  _;
+    server_name {{ node_address }} www.{{ node_address }};
 
     location / {
       return 308 https://$host$request_uri;

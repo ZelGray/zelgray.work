@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-certbot certonly --webroot -w="{{ certbot_acme_path }}" -m zel.gray@gmail.com --agree-tos -d "$@" -n
+certbot certonly --webroot -w="{{ certbot_acme_path }}" -m zel.gray@gmail.com --agree-tos --rsa-key-size 4096 -d "$@" -n
 sleep 10
 docker exec -it nginx nginx -s reload
 exit 0

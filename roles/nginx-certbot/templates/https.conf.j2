@@ -9,7 +9,7 @@ server {
 
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name  _;
+    server_name {{ node_address }} www.{{ node_address }};
 
     root /usr/share/nginx/html;
 
@@ -24,3 +24,4 @@ server {
     include conf.d/snippets/ssl-options.conf;
     ssl_dhparam conf.d/snippets/dhparams.pem;
 }
+

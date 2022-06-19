@@ -6,6 +6,8 @@
     masked: no
     daemon_reload: yes
   with_items: "{{ certbot_domains }}"
+  tags:
+    - systemd
 
 - name: Enable Certbot timers
   systemd:
@@ -15,4 +17,6 @@
     masked: no
     daemon_reload: yes
   with_items: "{{ certbot_domains }}"
+  tags:
+    - systemd
 ...

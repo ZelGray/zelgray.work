@@ -42,4 +42,5 @@
     state: started
   tags:
     - update_certs
+    - systemd
   with_items: "{{ certbot_domains }}"

@@ -7,6 +7,7 @@
   tags:
     - config
   with_dict: "{{ nginx_configs }}"
+  register: nginx_configs_state
 
 - name: Generate Nginx main config
   template:
@@ -14,6 +15,7 @@
     src: "nginx.conf.j2"
   tags:
     - config
+  register: nginx_main_config_state
 
 - name: Copy Nginx snippets
   copy:
@@ -24,7 +26,7 @@
 - name: Generate Diffie-Hellman key
   openssl_dhparam:
     path: "{{ nginx_snippets_path }}/dhparams.pem"
-    size: 2048
+    size: 4096
 
 - name: Up Nginx from Docker image
   docker_container:
@@ -67,4 +69,8 @@
   community.docker.docker_container_exec:
     container: "nginx"
     command: "nginx -s reload"
+  tags:
+    - reload_nginx
+    - config
+  when: nginx_configs_state is changed or nginx_main_config_state is changed
 ...
