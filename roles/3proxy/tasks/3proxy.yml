@@ -23,7 +23,7 @@
   template:
     dest: "{{ config_path }}"
     src: "{{ service_name }}.cfg.j2"
-  register: config_state
+  register: proxy_config_state
   tags:
     - config
 
@@ -49,7 +49,7 @@
     masked: no
     enabled: yes
     daemon_reload: yes
-    state: "{{ 'restarted' if config_state is changed else 'started' }}"
+    state: "{{ 'reloaded' if proxy_config_state is changed else 'started' }}"
   tags:
     - systemd
 ...

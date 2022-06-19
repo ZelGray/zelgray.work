@@ -1,0 +1,18 @@
+---
+- name: Enable Certbot services
+  systemd:
+    name: "certbot@{{ item }}.service"
+    enabled: yes
+    masked: no
+    daemon_reload: yes
+  with_items: "{{ certbot_domains }}"
+
+- name: Enable Certbot timers
+  systemd:
+    name: "certbot@{{ item }}.timer"
+    state: started
+    enabled: yes
+    masked: no
+    daemon_reload: yes
+  with_items: "{{ certbot_domains }}"
+...

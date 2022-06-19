@@ -16,9 +16,9 @@
     mode: 0640
     force: 'yes'
   with_items:
-    - dst: "certbot.service"
+    - dst: "certbot@.service"
       src: "certbot.service.j2"
-    - dst: "certbot.timer"
+    - dst: "certbot@.timer"
       src: "certbot.timer.j2"
 
 - name: Set SELinux context for service file
@@ -27,21 +27,19 @@
     setype: systemd_unit_file_t
     state: present
   with_items:
-    - "certbot.service"
-    - "certbot.timer"
+    - "certbot@.service"
+    - "certbot@.timer"
   tags:
     - security
     - selinux
 
-- name: Enable systemd timer
-  systemd:
-    name: "certbot.timer"
-    state: started
-    enabled: true
-    masked: false
-    daemon_reload: true
+- name: Enable Certbot services & timers
+  import_tasks: certbot_service.yml
 
 - name: Obtain certificate first time
   systemd:
-    name: "certbot.service"
-    state: restarted
+    name: "certbot@{{ item }}.service"
+    state: started
+  tags:
+    - update_certs
+  with_items: "{{ certbot_domains }}"

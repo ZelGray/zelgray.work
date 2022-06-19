@@ -1,7 +1,10 @@
 [Unit]
-Description=Certbot Service
+Description=Certbot Service for domain %i
 After=syslog.target network.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/certbot.sh
+ExecStart=/usr/local/bin/certbot.sh %i
+
+[Install]
+WantedBy=timers.target

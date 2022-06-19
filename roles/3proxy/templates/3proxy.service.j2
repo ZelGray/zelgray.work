@@ -10,6 +10,7 @@ PermissionsStartOnly=true
 ExecStartPre=/usr/bin/mkdir -p {{ pid_dir }}
 ExecStartPre=/usr/bin/chown -R nobody:nobody {{ pid_dir }}
 ExecStart=/usr/bin/{{ service_name }} {{ config_path }}
+ExecReload=kill -SIGUSR1 ${MAINPID}
 Restart=on-failure
 PIDFile={{ pid_file }}
 
