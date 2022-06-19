@@ -1,0 +1,8 @@
+---
+- name: Install DNF packages
+  dnf:
+    name: "{{ dnf_packages }}"
+    state: latest
+  become: yes
+
+...

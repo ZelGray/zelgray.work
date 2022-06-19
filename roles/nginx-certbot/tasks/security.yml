@@ -1,0 +1,26 @@
+---
+- name: Open ports for Nginx server
+  firewalld:
+    state: enabled
+    permanent: yes
+    port: "{{ item.value }}/tcp"
+  tags:
+    - firewalld
+  with_dict: "{{ nginx_ports }}"
+
+- name: Reload service `firewalld`
+  systemd:
+    state: reloaded
+    name: firewalld
+  tags:
+    - firewalld
+
+- name: Enable ports for Nginx server
+  seport:
+    setype: http_port_t
+    ports: "{{ item.value }}"
+    proto: tcp
+  with_dict: "{{ nginx_ports }}"
+  tags:
+    - selinux
+...

@@ -1,0 +1,7 @@
+[Unit]
+Description=Certbot Service
+After=syslog.target network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/certbot.sh

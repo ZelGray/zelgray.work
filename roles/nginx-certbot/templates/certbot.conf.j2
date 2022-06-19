@@ -1,0 +1,19 @@
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name  _;
+
+    location / {
+      return 308 https://$host$request_uri;
+    }
+
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
+        root /usr/share/nginx/html/letsencrypt/;
+    }
+
+    location = /.well-known/acme-challenge/ {
+        return 404;
+    }
+
+}

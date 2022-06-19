@@ -1,10 +1,14 @@
 ---
-- name: Sysctl option `net.core.somaxconn`
+- name: Sysctl options
   sysctl:
-    name: "net.core.somaxconn"
-    value: "2000"
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
     state: present
     sysctl_set: yes
     reload: yes
   become: yes
+  with_dict:
+    net.core.somaxconn: 2000
+    net.ipv6.conf.default.forwarding: 1
+    net.ipv6.conf.all.forwarding: 1
 ...

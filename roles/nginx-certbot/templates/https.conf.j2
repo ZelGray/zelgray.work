@@ -1,0 +1,26 @@
+server {
+    gzip on;
+    gzip_comp_level 6;
+    gzip_types
+        text/plain
+        text/css
+        application/json
+        text/javascript;
+
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name  _;
+
+    root /usr/share/nginx/html;
+
+    location / {
+        autoindex on;
+        index index.html;
+    }
+
+    ssl_certificate /etc/letsencrypt/live/{{ node_address }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ node_address }}/privkey.pem;
+    ssl_trusted_certificate /etc/letsencrypt/live/{{ node_address }}/chain.pem;
+    include conf.d/snippets/ssl-options.conf;
+    ssl_dhparam conf.d/snippets/dhparams.pem;
+}

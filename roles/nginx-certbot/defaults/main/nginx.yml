@@ -1,0 +1,11 @@
+---
+nginx_conf_path: "{{ nginx_volumes_path }}/nginx.conf"
+nginx_ports:
+  http: 80
+  https: 443
+nginx_configs:
+  certbot.conf: certbot.conf.j2
+  https.conf: https.conf.j2
+nginx_snippets:
+  - ssl-options.conf
+...

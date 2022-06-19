@@ -1,0 +1,22 @@
+---
+- name: Main tasks
+  block:
+    - name: DNF tasks
+      block:
+        - import_tasks: dnf.yml
+      tags:
+        - dnf
+    - name: Configuration Nginx
+      block:
+        - import_tasks: common.yml
+        - import_tasks: certbot.yml
+        - import_tasks: nginx.yml
+        - import_tasks: security.yml
+      become: yes
+      tags:
+        - configuration
+  tags:
+    - nginx
+  vars:
+    ansible_python_interpreter: "/usr/bin/env python3"
+...

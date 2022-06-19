@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+certbot certonly --webroot -w="{{ certbot_acme_path }}" -m zel.gray@gmail.com --agree-tos -d "{{ node_address }}" -n
+sleep 10
+docker exec -it nginx nginx -s reload
+exit 0

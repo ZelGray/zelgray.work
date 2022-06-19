@@ -1,0 +1,47 @@
+---
+- name: Prepare script for run certbot
+  template:
+    src: "certbot.sh.j2"
+    dest: "/usr/local/bin/certbot.sh"
+    owner: root
+    group: root
+    mode: 0740
+
+- name: Prepare systemd units
+  template:
+    src: "{{ item.src }}"
+    dest: "/usr/lib/systemd/system/{{ item.dst }}"
+    owner: root
+    group: root
+    mode: 0640
+    force: 'yes'
+  with_items:
+    - dst: "certbot.service"
+      src: "certbot.service.j2"
+    - dst: "certbot.timer"
+      src: "certbot.timer.j2"
+
+- name: Set SELinux context for service file
+  sefcontext:
+    target: "/usr/lib/systemd/system/{{ item }}"
+    setype: systemd_unit_file_t
+    state: present
+  with_items:
+    - "certbot.service"
+    - "certbot.timer"
+  tags:
+    - security
+    - selinux
+
+- name: Enable systemd timer
+  systemd:
+    name: "certbot.timer"
+    state: started
+    enabled: true
+    masked: false
+    daemon_reload: true
+
+- name: Obtain certificate first time
+  systemd:
+    name: "certbot.service"
+    state: restarted

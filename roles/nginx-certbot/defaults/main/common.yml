@@ -1,0 +1,6 @@
+---
+nginx_volumes_path: "{{ docker_volumes_directory }}/nginx"
+nginx_confd_path: "{{ nginx_volumes_path }}/conf.d"
+nginx_snippets_path: "{{ nginx_volumes_path }}/conf.d/snippets"
+certbot_acme_path: "{{ nginx_volumes_path }}/acme"
+...

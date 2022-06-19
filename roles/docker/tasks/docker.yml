@@ -5,10 +5,26 @@
     groups: "docker"
     append: yes
 
+- name: Daemon config
+  template:
+    dest: "/etc/docker/daemon.json"
+    src: "daemon.json.j2"
+    mode: 0644
+    owner: root
+    group: root
+  register: docker_config_state
+
+
 - name: Start Docker daemon
   systemd:
     state: started
     masked: no
     enabled: yes
     name: docker
+
+- name: Reload Docker daemon
+  systemd:
+    state: reloaded
+    name: docker
+  when: docker_config_state is changed
 ...

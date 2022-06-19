@@ -1,0 +1,70 @@
+---
+
+- name: Generate Nginx configs
+  template:
+    dest: "{{ nginx_confd_path }}/{{ item.key }}"
+    src: "{{ item.value }}"
+  tags:
+    - config
+  with_dict: "{{ nginx_configs }}"
+
+- name: Generate Nginx main config
+  template:
+    dest: "{{ nginx_volumes_path }}/nginx.conf"
+    src: "nginx.conf.j2"
+  tags:
+    - config
+
+- name: Copy Nginx snippets
+  copy:
+    src: "{{ item }}"
+    dest: "{{ nginx_snippets_path }}"
+  with_items: "{{ nginx_snippets }}"
+
+- name: Generate Diffie-Hellman key
+  openssl_dhparam:
+    path: "{{ nginx_snippets_path }}/dhparams.pem"
+    size: 2048
+
+- name: Up Nginx from Docker image
+  docker_container:
+    name: "nginx"
+    image: "nginx:1.21.6"
+    state: started
+    restart: no
+    pull: yes
+    network_mode: bridge
+    published_ports:
+      - "{{ nginx_ports['http'] }}:{{ nginx_ports['http'] }}"
+      - "[::]:{{ nginx_ports['http'] }}:{{ nginx_ports['http'] }}"
+      - "{{ nginx_ports['https'] }}:{{ nginx_ports['https'] }}"
+      - "[::]:{{ nginx_ports['https'] }}:{{ nginx_ports['https'] }}"
+    mounts:
+      - source: "/etc/letsencrypt"
+        target: "/etc/letsencrypt"
+        read_only: true
+        type: bind
+      - source: "{{ nginx_confd_path }}"
+        target: "/etc/nginx/conf.d"
+        read_only: yes
+        type: bind
+      - source: "{{ nginx_volumes_path }}/nginx.conf"
+        target: "/etc/nginx/nginx.conf"
+        read_only: yes
+        type: bind
+      - source: "{{ certbot_acme_path }}"
+        target: "/usr/share/nginx/html/letsencrypt"
+        read_only: yes
+        type: bind
+    log_driver: "json-file"
+    log_options:
+      max-size: "200m"
+      max-file: "5"
+  tags:
+    - docker
+
+- name: Reload Nginx Docker contaner
+  community.docker.docker_container_exec:
+    container: "nginx"
+    command: "nginx -s reload"
+...

@@ -1,0 +1,6 @@
+---
+- name: Configuring of Nginx server
+  hosts: all
+  roles:
+    - nginx-certbot
+...

@@ -9,4 +9,5 @@ proxy_users_list: "{{ proxy_users_list }}"
 proxy_management_user: "{{ proxy_management_user }}"
 proxy_enable_management: "{{ proxy_enable_management }}"
 docker_volumes_directory: "/var/lib/docker/volumes"
+node_address: "{{ node_address }}"
 ...
