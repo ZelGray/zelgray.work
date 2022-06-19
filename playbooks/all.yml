@@ -6,4 +6,5 @@
     - openvpn-server
     - 3proxy
     - docker
+    - nginx-certbot
 ...
